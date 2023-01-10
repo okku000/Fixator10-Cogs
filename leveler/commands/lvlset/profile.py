@@ -170,7 +170,8 @@ class Profile(MixinMeta):
             if await self._process_purchase(ctx):
                 await self.db.users.update_one(
                     {"user_id": str(user.id)},
-                    {"$set": {"profile_background": backgrounds["profile"][image_name]}},
+                    {"$set": {
+                        "profile_background": backgrounds["profile"][image_name]}},
                 )
                 await ctx.send("Your new profile background has been successfully set!")
         else:
@@ -187,7 +188,7 @@ class Profile(MixinMeta):
         Use this command with no title given to clear your title.
         """
         user = ctx.author
-        max_char = 20
+        max_char = 8
 
         if not title:
             await self.db.users.update_one({"user_id": str(user.id)}, {"$set": {"title": ""}})
@@ -201,7 +202,8 @@ class Profile(MixinMeta):
             await ctx.send("Your title has been successfully set!")
         else:
             await ctx.send(
-                "Your title has too many characters! Must be {} or less.".format(max_char)
+                "Your title has too many characters! Must be {} or less.".format(
+                    max_char)
             )
 
     @profileset.command()
@@ -216,5 +218,6 @@ class Profile(MixinMeta):
             await ctx.send("Your info section has been successfully set!")
         else:
             await ctx.send(
-                "Your description has too many characters! Must be {} or less.".format(max_char)
+                "Your description has too many characters! Must be {} or less.".format(
+                    max_char)
             )
