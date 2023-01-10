@@ -615,7 +615,7 @@ class ImageGenerators(MixinMeta):
         draw.rectangle([(0, 323), (340, 324)], fill=(0, 0, 0, 255))  # box
         # draw text box
         draw.rectangle(
-            [(0, 324), (300, 390)], fill=(info_fill[0], info_fill[1], info_fill[2], 255)
+            [(0, 324), (340, 390)], fill=(info_fill[0], info_fill[1], info_fill[2], 255)
         )  # box
 
         # rep_text = "{} REP".format(userinfo["rep"])
@@ -721,7 +721,7 @@ class ImageGenerators(MixinMeta):
             offset = 195
         margin = 140
         txt_color = self._contrast(info_fill, white_color, dark_color)
-        for line in textwrap.wrap(userinfo["info"], width=27):
+        for line in textwrap.wrap(userinfo["info"], width=14):
             # for line in textwrap.wrap('userinfo["info"]', width=200):
             # draw.text((margin, offset), line, font=text_fnt, fill=white_color)
             _write_unicode(line, margin, offset, text_fnt,
