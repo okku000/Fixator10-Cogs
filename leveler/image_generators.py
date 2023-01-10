@@ -82,11 +82,14 @@ class ImageGenerators(MixinMeta):
             for char in text:
                 # if char.isalnum() or char in string.punctuation or char in string.whitespace:
                 if self.char_in_font(char, check_font):
-                    draw.text((write_pos, y), "{}".format(char), font=font, fill=fill)
+                    draw.text((write_pos, y), "{}".format(
+                        char), font=font, fill=fill)
                     write_pos += self._get_character_pixel_width(font, char)
                 else:
-                    draw.text((write_pos, y), "{}".format(char), font=unicode_font, fill=fill)
-                    write_pos += self._get_character_pixel_width(unicode_font, char)
+                    draw.text((write_pos, y), "{}".format(
+                        char), font=unicode_font, fill=fill)
+                    write_pos += self._get_character_pixel_width(
+                        unicode_font, char)
             check_font.close()
 
         # set canvas
@@ -112,8 +115,10 @@ class ImageGenerators(MixinMeta):
 
         # draw transparent overlays
         draw_overlay = ImageDraw.Draw(info_section_process)
-        draw_overlay.rectangle([(0, 0), (bg_width, 20)], fill=(230, 230, 230, 200))
-        draw_overlay.rectangle([(0, 20), (bg_width, 30)], fill=(120, 120, 120, 180))  # Level bar
+        draw_overlay.rectangle([(0, 0), (bg_width, 20)],
+                               fill=(230, 230, 230, 200))
+        draw_overlay.rectangle([(0, 20), (bg_width, 30)], fill=(
+            120, 120, 120, 180))  # Level bar
         exp_frac = int(userinfo["servers"][str(server.id)]["current_exp"])
         exp_width = int(bg_width * (exp_frac / exp_total))
         if "rank_info_color" in userinfo.keys():
@@ -126,8 +131,10 @@ class ImageGenerators(MixinMeta):
             )  # increase transparency
         else:
             exp_color = (140, 140, 140, 230)
-        draw_overlay.rectangle([(0, 20), (exp_width, 30)], fill=exp_color)  # Exp bar
-        draw_overlay.rectangle([(0, 30), (bg_width, 31)], fill=(0, 0, 0, 255))  # Divider
+        draw_overlay.rectangle([(0, 20), (exp_width, 30)],
+                               fill=exp_color)  # Exp bar
+        draw_overlay.rectangle([(0, 30), (bg_width, 31)],
+                               fill=(0, 0, 0, 255))  # Divider
         # draw_overlay.rectangle([(0,35), (bg_width,100)], fill=(230,230,230,0)) # title overlay
         for i in range(0, 70):
             draw_overlay.rectangle(
@@ -136,7 +143,8 @@ class ImageGenerators(MixinMeta):
             )  # title overlay
 
         # draw corners and finalize
-        info_section = Image.alpha_composite(info_section, info_section_process)
+        info_section = Image.alpha_composite(
+            info_section, info_section_process)
         info_section = self._add_corners(info_section, 25)
         process.paste(info_section, (35, 0))
 
@@ -150,15 +158,18 @@ class ImageGenerators(MixinMeta):
         # create mask
         mask = Image.new("L", (raw_length, raw_length), 0)
         draw_thumb = ImageDraw.Draw(mask)
-        draw_thumb.ellipse((0, 0) + (raw_length, raw_length), fill=255, outline=0)
+        draw_thumb.ellipse((0, 0) + (raw_length, raw_length),
+                           fill=255, outline=0)
 
         # drawing level border
         lvl_circle = Image.new("RGBA", (raw_length, raw_length))
         draw_lvl_circle = ImageDraw.Draw(lvl_circle)
-        draw_lvl_circle.ellipse([0, 0, raw_length, raw_length], fill=(250, 250, 250, 250))
+        draw_lvl_circle.ellipse(
+            [0, 0, raw_length, raw_length], fill=(250, 250, 250, 250))
         # put on profile circle background
         temp = lvl_circle
-        lvl_circle = lvl_circle.resize((lvl_circle_dia, lvl_circle_dia), LANCZOS)
+        lvl_circle = lvl_circle.resize(
+            (lvl_circle_dia, lvl_circle_dia), LANCZOS)
         temp.close()
         lvl_bar_mask = mask.resize((lvl_circle_dia, lvl_circle_dia), LANCZOS)
         process.paste(lvl_circle, (circle_left, circle_top), lvl_bar_mask)
@@ -170,7 +181,8 @@ class ImageGenerators(MixinMeta):
         profile_size = lvl_circle_dia - total_gap
         raw_length = profile_size * multiplier
         # put in profile picture
-        output = ImageOps.fit(profile_image, (raw_length, raw_length), centering=(0.5, 0.5))
+        output = ImageOps.fit(
+            profile_image, (raw_length, raw_length), centering=(0.5, 0.5))
         temp = output
         output.resize((profile_size, profile_size), LANCZOS)
         temp.close()
@@ -178,9 +190,11 @@ class ImageGenerators(MixinMeta):
         mask = mask.resize((profile_size, profile_size), LANCZOS)
         temp.close()
         temp = profile_image
-        profile_image = profile_image.resize((profile_size, profile_size), LANCZOS)
+        profile_image = profile_image.resize(
+            (profile_size, profile_size), LANCZOS)
         temp.close()
-        process.paste(profile_image, (circle_left + border, circle_top + border), mask)
+        process.paste(profile_image, (circle_left +
+                      border, circle_top + border), mask)
 
         # draw text
         grey_color = (100, 100, 100, 255)
@@ -347,7 +361,8 @@ class ImageGenerators(MixinMeta):
         for i in range(0, height):
             draw.rectangle(
                 [(0, height - i), (width, height - i)],
-                fill=(info_color[0], info_color[1], info_color[2], 255 - i * 3),
+                fill=(info_color[0], info_color[1],
+                      info_color[2], 255 - i * 3),
             )  # title overlay
 
         # draw circle
@@ -358,14 +373,17 @@ class ImageGenerators(MixinMeta):
         # create mask
         mask = Image.new("L", (raw_length, raw_length), 0)
         draw_thumb = ImageDraw.Draw(mask)
-        draw_thumb.ellipse((0, 0) + (raw_length, raw_length), fill=255, outline=0)
+        draw_thumb.ellipse((0, 0) + (raw_length, raw_length),
+                           fill=255, outline=0)
 
         # border
         lvl_circle = Image.new("RGBA", (raw_length, raw_length))
         draw_lvl_circle = ImageDraw.Draw(lvl_circle)
-        draw_lvl_circle.ellipse([0, 0, raw_length, raw_length], fill=(250, 250, 250, 180))
+        draw_lvl_circle.ellipse(
+            [0, 0, raw_length, raw_length], fill=(250, 250, 250, 180))
         temp = lvl_circle
-        lvl_circle = lvl_circle.resize((lvl_circle_dia, lvl_circle_dia), LANCZOS)
+        lvl_circle = lvl_circle.resize(
+            (lvl_circle_dia, lvl_circle_dia), LANCZOS)
         temp.close()
         lvl_bar_mask = mask.resize((lvl_circle_dia, lvl_circle_dia), LANCZOS)
         process.paste(lvl_circle, (circle_left, circle_top), lvl_bar_mask)
@@ -374,7 +392,8 @@ class ImageGenerators(MixinMeta):
         profile_size = lvl_circle_dia - total_gap
         raw_length = profile_size * multiplier
         # put in profile picture
-        output = ImageOps.fit(profile_image, (raw_length, raw_length), centering=(0.5, 0.5))
+        output = ImageOps.fit(
+            profile_image, (raw_length, raw_length), centering=(0.5, 0.5))
         temp = output
         output.resize((profile_size, profile_size), LANCZOS)
         temp.close()
@@ -382,9 +401,11 @@ class ImageGenerators(MixinMeta):
         mask = mask.resize((profile_size, profile_size), LANCZOS)
         temp.close()
         temp = profile_image
-        profile_image = profile_image.resize((profile_size, profile_size), LANCZOS)
+        profile_image = profile_image.resize(
+            (profile_size, profile_size), LANCZOS)
         temp.close()
-        process.paste(profile_image, (circle_left + border, circle_top + border), mask)
+        process.paste(profile_image, (circle_left +
+                      border, circle_top + border), mask)
 
         # write label text
         white_text = (250, 250, 250, 255)
@@ -455,11 +476,14 @@ class ImageGenerators(MixinMeta):
             for char in text:
                 # if char.isalnum() or char in string.punctuation or char in string.whitespace:
                 if self.char_in_font(char, check_font):
-                    draw.text((write_pos, y), "{}".format(char), font=font, fill=fill)
+                    draw.text((write_pos, y), "{}".format(
+                        char), font=font, fill=fill)
                     write_pos += self._get_character_pixel_width(font, char)
                 else:
-                    draw.text((write_pos, y), "{}".format(char), font=unicode_font, fill=fill)
-                    write_pos += self._get_character_pixel_width(unicode_font, char)
+                    draw.text((write_pos, y), "{}".format(
+                        char), font=unicode_font, fill=fill)
+                    write_pos += self._get_character_pixel_width(
+                        unicode_font, char)
             check_font.close()
 
         # COLORS
@@ -516,7 +540,8 @@ class ImageGenerators(MixinMeta):
         # draw filter
         draw.rectangle([(0, 0), (340, 340)], fill=(0, 0, 0, 10))
 
-        draw.rectangle([(0, 134), (340, 325)], fill=info_fill_tx)  # general content
+        draw.rectangle([(0, 134), (340, 325)],
+                       fill=info_fill_tx)  # general content
         # draw profile circle
         multiplier = 8
         lvl_circle_dia = 116
@@ -527,7 +552,8 @@ class ImageGenerators(MixinMeta):
         # create mask
         mask = Image.new("L", (raw_length, raw_length), 0)
         draw_thumb = ImageDraw.Draw(mask)
-        draw_thumb.ellipse((0, 0) + (raw_length, raw_length), fill=255, outline=0)
+        draw_thumb.ellipse((0, 0) + (raw_length, raw_length),
+                           fill=255, outline=0)
 
         # border
         lvl_circle = Image.new("RGBA", (raw_length, raw_length))
@@ -539,7 +565,8 @@ class ImageGenerators(MixinMeta):
         )
         # put border
         temp = lvl_circle
-        lvl_circle = lvl_circle.resize((lvl_circle_dia, lvl_circle_dia), LANCZOS)
+        lvl_circle = lvl_circle.resize(
+            (lvl_circle_dia, lvl_circle_dia), LANCZOS)
         temp.close()
         lvl_bar_mask = mask.resize((lvl_circle_dia, lvl_circle_dia), LANCZOS)
         process.paste(lvl_circle, (circle_left, circle_top), lvl_bar_mask)
@@ -553,9 +580,11 @@ class ImageGenerators(MixinMeta):
         mask = mask.resize((profile_size, profile_size), LANCZOS)
         temp.close()
         temp = profile_image
-        profile_image = profile_image.resize((profile_size, profile_size), LANCZOS)
+        profile_image = profile_image.resize(
+            (profile_size, profile_size), LANCZOS)
         temp.close()
-        process.paste(profile_image, (circle_left + border, circle_top + border), mask)
+        process.paste(profile_image, (circle_left +
+                      border, circle_top + border), mask)
 
         # write label text
         white_color = (240, 240, 240, 255)
@@ -586,12 +615,13 @@ class ImageGenerators(MixinMeta):
         draw.rectangle([(0, 323), (340, 324)], fill=(0, 0, 0, 255))  # box
         # draw text box
         draw.rectangle(
-            [(0, 324), (340, 390)], fill=(info_fill[0], info_fill[1], info_fill[2], 255)
+            [(0, 324), (300, 390)], fill=(info_fill[0], info_fill[1], info_fill[2], 255)
         )  # box
 
         # rep_text = "{} REP".format(userinfo["rep"])
         rep_text = "{}".format(self._humanize_number(userinfo["rep"]))
-        _write_unicode("\N{HEAVY BLACK HEART}", 257, 9, rep_fnt, rep_u_fnt, rep_fill)
+        _write_unicode("\N{HEAVY BLACK HEART}", 257,
+                       9, rep_fnt, rep_u_fnt, rep_fill)
         draw.text(
             (self._center(278, 340, rep_text, rep_fnt), 10),
             rep_text,
@@ -694,7 +724,8 @@ class ImageGenerators(MixinMeta):
         for line in textwrap.wrap(userinfo["info"], width=27):
             # for line in textwrap.wrap('userinfo["info"]', width=200):
             # draw.text((margin, offset), line, font=text_fnt, fill=white_color)
-            _write_unicode(line, margin, offset, text_fnt, text_u_fnt, txt_color)
+            _write_unicode(line, margin, offset, text_fnt,
+                           text_u_fnt, txt_color)
             offset += 18
 
         # if await self.config.badge_type() == "circles":
@@ -728,7 +759,8 @@ class ImageGenerators(MixinMeta):
             # draw mask circle
             mask = Image.new("L", (raw_length, raw_length), 0)
             draw_thumb = ImageDraw.Draw(mask)
-            draw_thumb.ellipse((0, 0) + (raw_length, raw_length), fill=255, outline=0)
+            draw_thumb.ellipse(
+                (0, 0) + (raw_length, raw_length), fill=255, outline=0)
             if num < len(sorted_badges[:9]) and badges_images[num]:
                 pair = sorted_badges[num]
                 badge = pair[0]
@@ -738,14 +770,17 @@ class ImageGenerators(MixinMeta):
                 badge_image = badge_image_original.convert("RGBA")
                 badges_images[num].close()
                 badge_image_original.close()
-                badge_image_resized = badge_image.resize((raw_length, raw_length), LANCZOS)
+                badge_image_resized = badge_image.resize(
+                    (raw_length, raw_length), LANCZOS)
                 badge_image.close()
 
                 # structured like this because if border = 0, still leaves outline.
                 if border_color:
-                    square = Image.new("RGBA", (raw_length, raw_length), border_color)
+                    square = Image.new(
+                        "RGBA", (raw_length, raw_length), border_color)
                     # put border on ellipse/circle
-                    output = ImageOps.fit(square, (raw_length, raw_length), centering=(0.5, 0.5))
+                    output = ImageOps.fit(
+                        square, (raw_length, raw_length), centering=(0.5, 0.5))
                     temp = output
                     output = output.resize((size, size), LANCZOS)
                     temp.close()
@@ -760,9 +795,11 @@ class ImageGenerators(MixinMeta):
                         centering=(0.5, 0.5),
                     )
                     temp = output
-                    output = output.resize((size - total_gap, size - total_gap), LANCZOS)
+                    output = output.resize(
+                        (size - total_gap, size - total_gap), LANCZOS)
                     temp.close()
-                    inner_mask = mask.resize((size - total_gap, size - total_gap), LANCZOS)
+                    inner_mask = mask.resize(
+                        (size - total_gap, size - total_gap), LANCZOS)
                     process.paste(
                         output,
                         (coord[0] + border_width, coord[1] + border_width),
@@ -813,7 +850,8 @@ class ImageGenerators(MixinMeta):
                     fill=(plus_fill[0], plus_fill[1], plus_fill[2], 245),
                 )
                 # put border on ellipse/circle
-                output = ImageOps.fit(plus_square, (raw_length, raw_length), centering=(0.5, 0.5))
+                output = ImageOps.fit(
+                    plus_square, (raw_length, raw_length), centering=(0.5, 0.5))
                 temp = output
                 output = output.resize((size, size), LANCZOS)
                 temp.close()
